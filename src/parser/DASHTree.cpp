@@ -1214,7 +1214,7 @@ static void XMLCALL end(void* data, const char* el)
                   dash->current_period_->duration_
                       ? dash->current_period_->duration_ / dash->current_period_->timescale_
                       : dash->overallSeconds_;
-              if (!tpl.media.empty() && overallSeconds > 0 && tpl.timescale > 0 &&
+              if (!tpl.media.empty() && tpl.timescale > 0 &&
                   (tpl.duration > 0 ||
                    dash->current_adaptationset_->segment_durations_.data.size()))
               {
@@ -1224,6 +1224,9 @@ static void XMLCALL end(void* data, const char* el)
                         : (unsigned int)((double)overallSeconds /
                                          (((double)tpl.duration) / tpl.timescale)) +
                               1;
+
+                if (countSegs < 6)
+                  countSegs = 6;
 
                 if (countSegs < 65536)
                 {
